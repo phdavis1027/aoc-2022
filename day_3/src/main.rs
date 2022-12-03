@@ -61,25 +61,28 @@ fn main() {
     .tuples::<(_, _, _)>()
     .map(|(a, b, c)|{
       let (a, b, c) = (a.unwrap(), b.unwrap(), c.unwrap());
-      let common = a.chars()
-                    .collect::<HashSet<char>>()
-                    .intersection(
-                      &b
-                        .chars()
-                        .collect::<HashSet<char>>()
-                    )
-                    .map(|c|{
-                      *c
-                    })
-                    .collect::<HashSet<char>>();
-
-    let common = common.intersection(&c.chars()
-                                .collect::<HashSet<char>>())
-                       .map(|c|{
-                         *c
-                       })
-                       .collect::<HashSet<char>>();
-    common.into_iter().next()
+      a.chars()
+      .collect::<HashSet<char>>()
+      .intersection(
+        &b
+          .chars()
+          .collect::<HashSet<char>>()
+      )
+      .map(|c|{
+        *c
+      })
+      .collect::<HashSet<char>>()
+      .intersection(
+        &c
+          .chars()
+          .collect::<HashSet<char>>()
+      )
+      .map(|c|{
+        *c
+      })
+      .collect::<HashSet<char>>()
+      .into_iter()
+      .next()
   })
   .map(|c|{
     priority(c.unwrap())

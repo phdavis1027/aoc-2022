@@ -21,37 +21,37 @@ fn main() {
         .unwrap()
         .unwrap();
 
-    let mut storage = Storage::new(4);
+//    let mut storage = Storage::new(4);
+    let mut storage_part_2: Storage<(usize, &str)> = Storage::new(14);
     let dummy = 123456;
 
     let first = line
                   .split("")
                   .skip(1)
                   .enumerate()
-                  .sliding_windows(&mut storage)
+                  .sliding_windows(&mut storage_part_2)
                   .map(|window|{
                       println!("{:?}", window);
-                      *window
+                      let mut idx = 0;
+                      match window
                         .into_iter()
-                        .tuples::<(_, _, _, _)>()
-                        .map(|((_i, a), (_j, b), (_k, c), (l, d))| {
-                          match vec![a, b, c, d]
-                                .into_iter()
-                                .map(|s|{
-                                  *s
-                                })
-                                .collect::<HashSet<&str>>()
-                                .len() == 4 {
-                                  true => {
-                                   l + 1
-                                  },
-                                  false => {
-                                    &dummy
-                                  }
-                                }
+                        .enumerate()
+                        .map(|(i, (j, s))|{
+                          if i == 13 {
+                            idx = *j + 1;
+                          }
+                          *s
                         })
-                        .min()
-                        .unwrap()
+                        .collect::<HashSet<&str>>()
+                        .len() == 14
+                      {
+                        true => {
+                          idx
+                        },
+                        false => {
+                          dummy
+                        }
+                      }
                   })
                   .min()
                   .unwrap();

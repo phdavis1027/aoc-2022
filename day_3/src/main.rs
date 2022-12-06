@@ -84,8 +84,8 @@ fn main() {
       .into_iter()
       .next()
   })
-  .map(|c|{
-    priority(c.unwrap())
+  .map_or(0, |c|{
+    priority(c)
   })
   .sum();
 
